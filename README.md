@@ -1,7 +1,3 @@
-superproject
+Superproject
 
-The files for the first compulsory exercise in TMA.
-
-asdf asdf asdf asdf asdf asdf
-
-jkløjkløjkløjkløjkøl
+The files for the first compulsory exercise in TMA4280.
