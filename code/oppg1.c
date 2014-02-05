@@ -2,8 +2,11 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "common.h"
+
 double sum(int N);
 double sumSlow(int N);
+double sumShared(int N);
 
 int main(int argc,char** argv){
 	double S = (M_PI*M_PI)/6;
@@ -21,8 +24,8 @@ int main(int argc,char** argv){
 	
 	for(i=0; i<iterations; ++i)
 	{
-		Sn[i] = sum(N[i]);
-		SnSlow[i] = sumSlow(N[i]);
+		Sn[i] = sumShared(N[i]);
+		SnSlow[i] = sum(N[i]);
 	}
 	for(i=0; i<iterations; ++i)
 	{
@@ -76,5 +79,26 @@ sumSlow(int N)
 	tmp = v[0];
 	free(v);
 	return tmp;
+}
+// Shared memory parallelisation.
+double
+sumShared(int N)
+{
+	int i;
+	double Sn=0;
+	double* v = (double*)malloc(N*sizeof(double));
+
+#pragma omp parallel for schedule(static)
+	for(i=1; i<=N; ++i)
+	{
+		v[i-1] = 1.0/(i*i);
+	}
+
+#pragma omp parallel for schedule(static) reduction(+:Sn)
+	for(i=0; i<N; ++i)
+	{
+		Sn += v[i];
+	}
+	return Sn;
 }
 
