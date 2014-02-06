@@ -1,0 +1,35 @@
+\documentclass[11pt,titlepage] {article}
+\usepackage{ngerman}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\setlength{\parindent}{0cm}
+\begin{document} 
+\section*{TMA4280 - Inroduction to Supercomputing\\ Problem set 4  Spring 2014}
+
+
+\section{Task1}
+We create the vector $v$ by a simple for loop. \\
+For calulating $S_n$ we were thinking if there is a difference if we start summing up the values of $v$ from the beginning or the end, because $v(1)>>v(i)$ for $i>>1$. So there might be a difference because of the double precision. So we tryed both summing staring from the beginning and the end and we realized, that the difference is negligible small. (For $S_{14}$the difference between both summations were of order $10^{-15}$ and the diffence between $S$ and $S_n$ was of order $10^{-5}$.)
+By comparing the values of $S_n$ with $S$ up to $n=14$ we observed, that $S_n$ converges to $S$ but the convergence speed seems to be quite slow. 
+
+\section{Task2}
+ We parallalized two parts of our programm with OpenMP: The creation of the vector $v$ and the summation of the vector elements. Since calculating $\frac{1}{i^2}$ and also summing $S_n=S_n+v(i)$ 
+have the same cost for every $i$ we used the \textit{schedule(static)} to intruct the compiler to hand each thread approximatly the same number of loop iterations.
+
+
+\section{Task6}
+The result should be the same. But like menttioned in Task1 there are small differences if the order of summation is different and the values are quite different due to the double precision. The order of summation is different when using $2$ or $8$ processors so they are small differences. (of order  $10^{-15}$   ??????????)
+
+\section{Task8}
+There are $2*n=O(n)$ floating point operations needed to calculate $v$ with length $n$ and there are $n=O(n)$ floating point operations needed to calculate $S_n$.\\
+Is it load balancend?????????????
+
+\section{Task9}
+If we just want to calculate $S_n$ up to $n=2^{14}$ then it is not necessary to use parallel processing because it is such a small task that is also very fast on one processor. If $n$ is increased (then you have to use long int instead of int to calculate $i^2$) it is very attractive to use parallel computing. The calulations in the parallelized loops are independent of any other results and the cost of every loop is the same. So all the prozessors are used almost all the time. Hence it is very efficient. 
+
+\end{document}
+
+
