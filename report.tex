@@ -13,19 +13,32 @@
 \section{Task1}
 We create the vector $v$ by a simple for loop. \\
 For calulating $S_n$ we were thinking if there is a difference if we start summing up the values of $v$ from the beginning or the end, because $v(1)>>v(i)$ for $i>>1$. So there might be a difference because of the double precision. So we tryed both summing staring from the beginning and the end and we realized, that the difference is negligible small. (For $S_{14}$the difference between both summations were of order $10^{-15}$ and the diffence between $S$ and $S_n$ was of order $10^{-5}$.)
-By comparing the values of $S_n$ with $S$ up to $n=14$ we observed, that $S_n$ converges to $S$ but the convergence speed seems to be quite slow. 
+By comparing the values of $S_n$ with $S$ up to $n=14$ we observed, that $S_n$ converges to $S$ but the convergence speed seems to be quite slow.
+
+we have to insert a plot !!!! 
 
 \section{Task2}
  We parallalized two parts of our programm with OpenMP: The creation of the vector $v$ and the summation of the vector elements. Since calculating $\frac{1}{i^2}$ and also summing $S_n=S_n+v(i)$ 
 have the same cost for every $i$ we used the \textit{schedule(static)} to intruct the compiler to hand each thread approximatly the same number of loop iterations.
 
+\section{Task3}
+
+\section{Task4}
+
+\section{Task5}
+
 
 \section{Task6}
-The result should be the same. But like menttioned in Task1 there are small differences if the order of summation is different and the values are quite different due to the double precision. The order of summation is different when using $2$ or $8$ processors so they are small differences. (of order  $10^{-15}$   ??????????)
+The result should be the same. But like mentioned in Task1 there are small differences if the order of summation is different and the values are quite different due to the double precision. The order of summation is different when using $1$, $2$ or $8$ processors so they are small differences. (of order  $10^{-15}$   ??????????)
+
+\section{Task7}
+The dominant part of the memory in this program is used for saving the vector $v$. In the openMP-programm the whole vector is saved in the memory of one processor. (These are $n$ doubles, so $n*8$ byte)\\
+In the MPI-programm $v$ is split. If $N$ is the number of processors then $\frac{8n}{N}$ byte are used on each processors memory.
 
 \section{Task8}
 There are $2*n=O(n)$ floating point operations needed to calculate $v$ with length $n$ and there are $n=O(n)$ floating point operations needed to calculate $S_n$.\\
-Is it load balancend?????????????
+The openMP-programm is load balanced, because all the loops have the same costs and the loops are equal distributed (by using \textit{schedule(static)}) We testing the program with 4 kernals and we got a speedup around 3.5 for large n.\\
+The MPI-programm is not load balanced, because the processor $0$ creates the vector $v$ alone, which takes more than half of the whole time. During this time the other precessors have to wait until they can start. 
 
 \section{Task9}
 If we just want to calculate $S_n$ up to $n=2^{14}$ then it is not necessary to use parallel processing because it is such a small task that is also very fast on one processor. If $n$ is increased (then you have to use long int instead of int to calculate $i^2$) it is very attractive to use parallel computing. The calulations in the parallelized loops are independent of any other results and the cost of every loop is the same. So all the prozessors are used almost all the time. Hence it is very efficient. 
