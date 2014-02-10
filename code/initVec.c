@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "sum.h"
 
 // Creates an array of the N first elements of the sequanece 1/(i*i).
