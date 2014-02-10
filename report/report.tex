@@ -7,41 +7,44 @@
 \usepackage{amstext}
 \setlength{\parindent}{0cm}
 \begin{document} 
-\section*{TMA4280 - Inroduction to Supercomputing\\ Problem set 4  Spring 2014}
+\section*{TMA4280 - Introduction to Supercomputing\\ Problem set 4  Spring 2014}
 
 
 \section{Task1}
 We create the vector $v$ by a simple for loop. \\
-For calulating $S_n$ we were thinking if there is a difference if we start summing up the values of $v$ from the beginning or the end, because $v(1)>>v(i)$ for $i>>1$. So there might be a difference because of the double precision. So we tryed both summing staring from the beginning and the end and we realized, that the difference is negligible small. (For $S_{14}$the difference between both summations were of order $10^{-15}$ and the diffence between $S$ and $S_n$ was of order $10^{-5}$.)
+For calculating $S_n$ we were thinking if there is a difference if we start summing up the values of $v$ from the beginning or the end, because $v(1)>>v(i)$ for $i>>1$. So there might be a difference because of the double precision. So we tried both summing staring from the beginning and the end and we realized, that the difference is negligible small. (For $S_{14}$the difference between both summations were of order $10^{-15}$ and the difference between $S$ and $S_n$ was of order $10^{-5}$.)
 By comparing the values of $S_n$ with $S$ up to $n=14$ we observed, that $S_n$ converges to $S$ but the convergence speed seems to be quite slow.
 
 we have to insert a plot !!!! 
 
 \section{Task2}
- We parallalized two parts of our programm with OpenMP: The creation of the vector $v$ and the summation of the vector elements. Since calculating $\frac{1}{i^2}$ and also summing $S_n=S_n+v(i)$ 
-have the same cost for every $i$ we used the \textit{schedule(static)} to intruct the compiler to hand each thread approximatly the same number of loop iterations.
+ We parallelised two parts of our program with OpenMP: The creation of the vector $v$ and the summation of the vector elements. Since calculating $\frac{1}{i^2}$ and also summing $S_n=S_n+v(i)$ 
+have the same cost for every $i$ we used the \textit{schedule(static)} to instruct the compiler to hand each thread approximately the same number of loop iterations.
 
 \section{Task3}
-
+We also parallelised the program with MPI like it is described in Task 3. Each processor gets a vector of the same length from processor $0$ and sums it up. When processor $0$ is finished creating one part of the vector $v$ it sends this part directly to an other processor so that this one can start summing up and processor $0$ never needs more memory than the length of this part. The last part of the vector $v$ is summed up by processor $0$. //
+Here we get the same convergence results as in the first task. 
 \section{Task4}
+While using openMP and MPI at the same time has the same structure as using just MPI. The difference is that the creation of the parts of the vector $v$ in processor $0$ and the summation of the parts of the vector in every processor is parallelised with openMP.
 
 \section{Task5}
-
+We used the MPI calls MPI-Send, MPI-Recv and MPI-Reduce.
+MPI-Send is necessary for processor $0$ to send the parts of the vector $v$ to the other processors. They use MPI_Recv to receive these vectorparts and send the sum back to processor $0$, which sums them up using MPI-Reduce.
 
 \section{Task6}
 The result should be the same. But like mentioned in Task1 there are small differences if the order of summation is different and the values are quite different due to the double precision. The order of summation is different when using $1$, $2$ or $8$ processors so they are small differences. (of order  $10^{-15}$   ??????????)
 
 \section{Task7}
-The dominant part of the memory in this program is used for saving the vector $v$. In the openMP-programm the whole vector is saved in the memory of one processor. (These are $n$ doubles, so $n*8$ byte)\\
-In the MPI-programm $v$ is split. If $N$ is the number of processors then $\frac{8n}{N}$ byte are used on each processors memory.
+The dominant part of the memory in this program is used for saving the vector $v$. In the openMP-program the whole vector is saved in the memory of one processor. (These are $n$ doubles, so $n*8$ byte)\\
+In the MPI-program $v$ is split. If $N$ is the number of processors then $\frac{8n}{N}$ byte are used on each processors memory.
 
 \section{Task8}
 There are $2*n=O(n)$ floating point operations needed to calculate $v$ with length $n$ and there are $n=O(n)$ floating point operations needed to calculate $S_n$.\\
-The openMP-programm is load balanced, because all the loops have the same costs and the loops are equal distributed (by using \textit{schedule(static)}) We testing the program with 4 kernals and we got a speedup around 3.5 for large n.\\
-The MPI-programm is not load balanced, because the processor $0$ creates the vector $v$ alone, which takes more than half of the whole time. During this time the other precessors have to wait until they can start. 
+The openMP-program is load balanced, because all the loops have the same costs and the loops are equal distributed (by using \textit{schedule(static)}) We testing the program with 4 kernels and we got a speedup around 3.5 for large n.\\
+The MPI-program is not load balanced, because the processor $0$ creates the vector $v$ alone, which takes more than half of the whole time. During this time the other processors have to wait until they can start. 
 
 \section{Task9}
-If we just want to calculate $S_n$ up to $n=2^{14}$ then it is not necessary to use parallel processing because it is such a small task that is also very fast on one processor. If $n$ is increased (then you have to use long int instead of int to calculate $i^2$) it is very attractive to use parallel computing. The calulations in the parallelized loops are independent of any other results and the cost of every loop is the same. So all the prozessors are used almost all the time. Hence it is very efficient. 
+If we just want to calculate $S_n$ up to $n=2^{14}$ then it is not necessary to use parallel processing because it is such a small task that is also very fast on one processor. If $n$ is increased (then you have to use long int instead of int to calculate $i^2$) it is very attractive to use parallel computing. The calculations in the parallelised loops are independent of any other results and the cost of every loop is the same. So all the processors are used almost all the time. Hence it is very efficient. 
 
 \end{document}
 
