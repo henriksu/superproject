@@ -5,8 +5,8 @@
 #include "sum.h" // All our functions + common.h ( MPI, omp, WallTime() ).
 
 int main(int argc,char** argv){
-	int i; // Generic loop variable.
-	int N; // Numer of elements to sum.
+	long long N; // Numer of elements to sum.
+	int i, tmp;
 	int method; // Indicates what summing medthod to use. 1=task 1, 2=task 2, 3=task 3, 4=task 4, 5=slowSum.
 	int rank = 0; // MPI rank.
 	double time; // Used to store both start time (seconds since 1970?) and time deltas in seconds.
@@ -22,15 +22,17 @@ int main(int argc,char** argv){
 			method = atoi(argv[1]);
 		else // Default
 			method = 5;
-		N = atoi(argv[2]);
+		tmp = atoi(argv[2]);
 	}
 	else if (argc >=1)
 	{
 		method = 5;
-		N = atoi(argv[1]);
+		tmp = atoi(argv[1]);
 	}
 			
-	N= pow(2,N);
+	N= 1;
+	for (i=0; i<tmp; ++i)
+		N *= 2;
 
 	// Do calculations.
 	switch (method)
@@ -75,7 +77,7 @@ int main(int argc,char** argv){
 	if(rank==0)
 	{
 		printf("n \terror \t\ttime\n");
-		printf("%d \t%e \t%e\n", N, S-Sn, time);
+		printf("%lld \t%e \t%e\n", N, S-Sn, time);
 	}
 	
 	// Clean up.

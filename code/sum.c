@@ -3,7 +3,7 @@
 
 // Makes and sums up a vector. Sums from highest to lowest element.
 double
-sum(const int N)
+sum(const long long N)
 {
 	double* v = initVec_seq(N);
 	double Sn = summingSeq(v, N);
@@ -14,7 +14,7 @@ sum(const int N)
 // Slower edition of sum. Sums by always adding the two smallest numbers.
 // Numarically more stable.
 double
-sumSlow(const int N)
+sumSlow(const long long N)
 {
 	double* v = initVec_seq(N);
 	double Sn = summingSlow(v, N);
@@ -23,7 +23,7 @@ sumSlow(const int N)
 }
 // Shared memory parallelisation.
 double
-sumShared(const int N)
+sumShared(const long long N)
 {
 	double* v = initVec_shared(N);
 	double Sn = summingShared(v, N);
@@ -33,12 +33,12 @@ sumShared(const int N)
 
 // Distributed memory parallelisation.
 double
-sumDist(const int N, int* rank)
+sumDist(const long long N, int* rank)
 {
 	double Sn=0;
 	double Sn_temp;
 	int size;
-	int N_part;
+	long long N_part;
 	double* v;
 
 	MPI_Comm_size(MPI_COMM_WORLD,&size);
@@ -59,12 +59,12 @@ sumDist(const int N, int* rank)
 
 // Parallelisation using both MPI and OpenMP.
 double
-sumHybrid(const int N, int* rank)
+sumHybrid(const long long N, int* rank)
 {
 	double Sn=0;
 	double Sn_temp;
 	int size;
-	int N_part;
+	long long N_part;
 	double* v;
 
 	MPI_Comm_size(MPI_COMM_WORLD,&size);

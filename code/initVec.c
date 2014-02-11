@@ -4,9 +4,9 @@
 // Creates an array of the N first elements of the sequanece 1/(i*i).
 // Straight forward sequential implementation.
 // Returns a pointer to the first element of the array.
-double* initVec_seq(const int N)
+double* initVec_seq(const long long N)
 {
-	int i;
+	long long i;
 	double* v = (double*)malloc(N*sizeof(double));
 	for(i=1; i<=N; ++i)
 	{
@@ -18,9 +18,9 @@ double* initVec_seq(const int N)
 // Creates an array of the N first elements of the sequence 1/(i*i).
 // Uses OpenMP to calculate and assign the element values in parallel.
 // Returns a pointer to the first element of the array.
-double* initVec_shared(const int N)
+double* initVec_shared(const long long N)
 {
-	int i;
+	long long i;
 	double* v = (double*)malloc(N*sizeof(double));
 	#pragma omp parallel for schedule(static)
 	for(i=1; i<=N; ++i)
@@ -33,13 +33,14 @@ double* initVec_shared(const int N)
 // Create an array of consecutive elements from the sequence 1/(i*i) on each
 // process. Process 0 calculates all the elements and send finished arrays
 // to the other processors. Process 0 keeps the last chunk.
-double* initVec_dist(const int N_part, const int* rank, const int size)
+double* initVec_dist(const long long N_part, const int* rank, const int size)
 {
 	MPI_Status Status;
 	double* v = (double*)malloc(N_part*sizeof(double));
 	if(*rank == 0)
 	{
-		int dest,j,move = 1;		
+		int dest;
+		long long j, move = 1;		
 		for(dest=1; dest<=size; ++dest) // The last iteration is not sent to rank==size, but stays in rank==0.
 		{
 			move = (dest-1)*N_part+1;
@@ -59,13 +60,14 @@ double* initVec_dist(const int N_part, const int* rank, const int size)
 // process. Process 0 calculates all the elements and send finished arrays
 // to the other processors. Process 0 keeps the last chunk.
 // On process 0 OpenMP is used to fill each chunk in parallel.
-double* initVec_hybrid(const int N_part, const int* rank, const int size)
+double* initVec_hybrid(const long long N_part, const int* rank, const int size)
 {
 	MPI_Status Status;
 	double* v =  (double*)malloc(N_part*sizeof(double));
 	if(*rank == 0)
 	{
-		int dest,j, move = 1;
+		int dest;
+		long long j, move = 1;
 		for(dest=1; dest<=size; ++dest) // The last iteration is not sent to rank==size, but stays in rank==0.
 		{
 			#pragma parallel for schedule(Static)
