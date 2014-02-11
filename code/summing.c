@@ -5,7 +5,7 @@ double summingSeq(double* v, const long long N)
 {
 	long long i;
 	double Sn = 0;
-	for(i=0; i<N; ++i)
+	for(i=N-1; i>0; --i)
 	{
 		Sn += v[i];
 	}
