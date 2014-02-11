@@ -28,7 +28,9 @@ int main(int argc,char** argv){
 	{
 		method = 5;
 		N = atoi(argv[1]);
-	}		
+	}
+			
+	N= pow(2,N);
 
 	// Do calculations.
 	switch (method)
