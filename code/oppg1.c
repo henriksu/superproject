@@ -51,7 +51,7 @@ int main(int argc,char** argv){
 				printf("Running the MPI-parallelized programm (Task3).\n");
 			time = WallTime();
 			Sn = sumDist(N,&rank);
-			time = time - WallTime();
+			time = WallTime() - time;
 			break;
 		case 4:
 			MPI_Comm_rank(MPI_COMM_WORLD,&rank);
@@ -59,13 +59,13 @@ int main(int argc,char** argv){
 				printf("Running the openMP- and MPI-parallelized programm (Task4).\n");
 			time = WallTime();
 			Sn = sumHybrid(N,&rank);
-			time = time - WallTime();
+			time = WallTime() - time;
 			break;
 		case 5:
 			printf("Running the non-parallelized programm with better summation order(Task1).\n");
 			time= WallTime();
 			Sn = sumSlow(N);
-			time = time - WallTime();
+			time = WallTime() - time;
 			break;
 	}
 
