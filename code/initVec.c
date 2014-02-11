@@ -10,7 +10,7 @@ double* initVec_seq(const long long N)
 	double* v = (double*)malloc(N*sizeof(double));
 	for(i=1; i<=N; ++i)
 	{
-		v[i-1] = 1.0/(i*i);
+		v[i-1] = 1.0/((double)i*i);
 	}
 	return v;
 }
@@ -25,7 +25,7 @@ double* initVec_shared(const long long N)
 	#pragma omp parallel for schedule(static)
 	for(i=1; i<=N; ++i)
 	{
-		v[i-1] = 1.0/(i*i);
+		v[i-1] = 1.0/((double)i*i);
 	}
 	return v;
 }
@@ -45,7 +45,7 @@ double* initVec_dist(const long long N_part, const int* rank, const int size)
 		{
 			move = (dest-1)*N_part+1;
 			for(j=0;j<N_part;++j)
-				v[j] = 1.0/((j+move)*(j+move));
+				v[j] = 1.0/((double)(j+move)*(j+move));
 			if(dest < size)
 				MPI_Send(v,N_part,MPI_DOUBLE,dest,100,MPI_COMM_WORLD);
 			move += N_part;
@@ -72,7 +72,7 @@ double* initVec_hybrid(const long long N_part, const int* rank, const int size)
 		{
 			#pragma parallel for schedule(Static)
 			for(j=0;j<N_part;++j)
-				v[j] = 1.0/((j+move)*(j+move));
+				v[j] = 1.0/((double)(j+move)*(j+move));
 			if(dest < size)
 				MPI_Send(v,N_part,MPI_DOUBLE,dest,100,MPI_COMM_WORLD);
 			move += N_part;
