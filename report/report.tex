@@ -29,7 +29,7 @@ While using openMP and MPI at the same time has the same structure as using just
 
 \section{Task5}
 We used the MPI calls MPI-Send, MPI-Recv and MPI-Reduce.
-MPI-Send is necessary for processor $0$ to send the parts of the vector $v$ to the other processors. They use MPI_Recv to receive these vectorparts and send the sum back to processor $0$, which sums them up using MPI-Reduce.
+MPI-Send is necessary for processor $0$ to send the parts of the vector $v$ to the other processors. They use MPI-Recv to receive these vectorparts and send the sum back to processor $0$, which sums them up using MPI-Reduce.
 
 \section{Task6}
 The result should be the same. But like mentioned in Task1 there are small differences if the order of summation is different and the values are quite different due to the double precision. The order of summation is different when using $1$, $2$ or $8$ processors so they are small differences. (of order  $10^{-15}$   ??????????)
