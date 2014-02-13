@@ -70,7 +70,7 @@ double* initVec_hybrid(const long long N_part, const int* rank, const int size)
 		long long j, move = 1;
 		for(dest=1; dest<=size; ++dest) // The last iteration is not sent to rank==size, but stays in rank==0.
 		{
-			#pragma parallel for schedule(static)
+			#pragma omp parallel for schedule(static)
 			for(j=0;j<N_part;++j)
 				v[j] = 1.0/((double)(j+move)*(j+move));
 			if(dest < size)
