@@ -77,7 +77,7 @@ int main(int argc,char** argv){
 	if(rank==0)
 	{
 		printf("n \terror \t\ttime\n");
-		printf("%lld \t%e \t%e\n", N, S-Sn, time);
+		printf("%lld \t%.17e \t%e\n", N, S-Sn, time);
 	}
 	
 	// Clean up.
