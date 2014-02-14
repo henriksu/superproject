@@ -1,11 +1,23 @@
 #include "sum.h"
 
-// Sums the N elements of the array v from left to right.
+// Sums the N elements of the array v from right to left.
 double summingSeq(double* v, const long long N)
 {
 	long long i;
 	double Sn = 0;
 	for(i=N-1; i>=0; --i)
+	{
+		Sn += v[i];
+	}
+	return Sn;
+}
+
+// Sums the N elements of the array v from left to right.
+double summingSeqF(double* v, const long long N)
+{
+	long long i;
+	double Sn = 0;
+	for(i=0; i<N; ++i)
 	{
 		Sn += v[i];
 	}

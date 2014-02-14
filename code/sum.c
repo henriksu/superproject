@@ -1,12 +1,22 @@
 #include <stdlib.h>
 #include "sum.h"
 
-// Makes and sums up a vector. Sums from highest to lowest element.
+// Makes and sums up a vector. Sums from lowest to highest element.
 double
 sum(const long long N)
 {
 	double* v = initVec_seq(N);
 	double Sn = summingSeq(v, N);
+	free(v);
+	return Sn;
+}
+
+// Makes and sums up a vector. Sums from highest to lowest element.
+double
+sumF(const long long N)
+{
+	double* v = initVec_seq(N);
+	double Sn = summingSeqF(v, N);
 	free(v);
 	return Sn;
 }
